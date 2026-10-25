@@ -1,0 +1,141 @@
+/* Doomscholar design tokens.
+   Dark is the default; light follows the iOS appearance setting.
+   Owned by the UI/UX thread: change values here, not in component files. */
+
+:root {
+  color-scheme: dark light;
+
+  /* Color: dark (default) */
+  --bg: #0A0A0C;
+  --surface: #15151A;
+  --surface-2: #1E1E25;
+  --bar: rgba(16, 16, 20, 0.94);
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --text: #F4F2EE;
+  --text-body: #E6E4DF;
+  --text-2: #A9A8B3;
+  --text-3: #85848F;
+  --accent: #8FA8FF;
+  --accent-soft: rgba(143, 168, 255, 0.14);
+  --like: #FF4D6D;
+  --like-2: #FF7A45;
+  --like-glow: rgba(255, 77, 109, 0.45);
+  --on-inverse: #0A0A0C;
+  --inverse: #F4F2EE;
+  --shadow-float: 0 12px 32px rgba(0, 0, 0, 0.5);
+
+  /* Type: system fonts, so the app works offline and feels native.
+     ui-serif resolves to New York on iOS. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif;
+  --font-serif: ui-serif, "New York", Newsreader, Georgia, serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+
+  --fs-large-title: 34px;
+  --fs-title: 30px;
+  --fs-headline: 17px;
+  --fs-body: 17px;
+  --fs-reading: 19px;   /* abstracts and full papers */
+  --fs-callout: 15px;
+  --fs-meta: 13px;
+  --fs-caption: 11px;
+  --lh-tight: 1.12;
+  --lh-reading: 1.58;
+
+  /* Spacing: 4-pt scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --gutter: 20px;
+
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+  --tap: 44px;          /* minimum touch target */
+
+  /* Safe areas (needs viewport-fit=cover in the viewport meta) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --topbar-h: 104px;    /* brand row + chips, excluding safe-top */
+  --tabbar-h: 50px;     /* excluding safe-bottom */
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-press: 120ms;
+  --dur-fast: 200ms;
+  --dur-med: 320ms;
+  --dur-burst: 700ms;
+
+  /* Aliases read by features/reader.css (--f-* fallbacks) */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-2);
+  --color-border: var(--line);
+  --color-accent: var(--accent);
+  --color-like: var(--like);
+  --border: var(--line-strong);   /* read by src/app.css */
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface-2: #EFECE5;
+    --bar: rgba(247, 245, 240, 0.94);
+    --line: rgba(0, 0, 0, 0.08);
+    --line-strong: rgba(0, 0, 0, 0.14);
+    --text: #15151A;
+    --text-body: #24232A;
+    --text-2: #5A5963;
+    --text-3: #6E6D77;
+    --accent: #3D5BD9;
+    --accent-soft: rgba(61, 91, 217, 0.10);
+    --like: #E5294B;
+    --like-2: #E8590C;
+    --like-glow: rgba(229, 41, 75, 0.35);
+    --on-inverse: #F7F5F0;
+    --inverse: #15151A;
+    --shadow-float: 0 12px 32px rgba(0, 0, 0, 0.14);
+  }
+}
+
+:root[data-theme="light"] {
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --surface-2: #EFECE5;
+  --bar: rgba(247, 245, 240, 0.94);
+  --line: rgba(0, 0, 0, 0.08);
+  --line-strong: rgba(0, 0, 0, 0.14);
+  --text: #15151A;
+  --text-body: #24232A;
+  --text-2: #5A5963;
+  --text-3: #6E6D77;
+  --accent: #3D5BD9;
+  --accent-soft: rgba(61, 91, 217, 0.10);
+  --like: #E5294B;
+  --like-2: #E8590C;
+  --like-glow: rgba(229, 41, 75, 0.35);
+  --on-inverse: #F7F5F0;
+  --inverse: #15151A;
+  --shadow-float: 0 12px 32px rgba(0, 0, 0, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-press: 0ms;
+    --dur-fast: 120ms;
+    --dur-med: 160ms;
+    --dur-burst: 400ms;
+    --ease-spring: ease-out;
+  }
+}

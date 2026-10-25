@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Likes + Reader demo</title>
+  <link rel="stylesheet" href="../design/tokens.css">
+  <link rel="stylesheet" href="../design/components.css">
+  <link rel="stylesheet" href="./reader.css">
+  <style>
+    body { margin: 0; background: var(--f-bg); color: var(--f-fg); font-family: var(--f-sans); }
+    .demo-card { margin: 16px; padding: 20px; border-radius: 16px; background: var(--f-surface); min-height: 180px; user-select: none; -webkit-user-select: none; }
+    .demo-card h3 { margin: 0 0 8px; }
+    .demo-card p { color: var(--f-muted); font-size: 0.9rem; }
+    .card__actions { display: flex; gap: 8px; }
+    .card__actions .action-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--f-border); background: none; color: inherit; font: 600 0.85rem var(--f-sans); }
+    .card__actions .action-btn svg { width: 20px; height: 20px; }
+    nav { display: flex; gap: 8px; padding: 12px 16px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <button class="btn" id="tab-feed">Cards</button>
+    <button class="btn" id="tab-liked">Liked</button>
+  </nav>
+  <div id="cards"></div>
+  <div id="liked" hidden></div>
+  <script type="module">
+    import Likes from './likes.js';
+    import Reader from './reader.js';
+
+    const papers = [
+      { id: '2310.06825', title: 'Mistral 7B', authors: ['Albert Q. Jiang', 'Alexandre Sablayrolles'], summary: 'We introduce Mistral 7B, a 7-billion-parameter language model engineered for superior performance and efficiency.', published: '2023-10-10', categories: ['cs.CL'], primary: 'cs.CL' },
+      { id: '1706.03762', title: 'Attention Is All You Need', authors: ['Ashish Vaswani', 'Noam Shazeer'], summary: 'The dominant sequence transduction models are based on complex recurrent or convolutional neural networks.', published: '2017-06-12', categories: ['cs.CL'], primary: 'cs.CL' },
+      { id: '2005.14165', title: 'Language Models are Few-Shot Learners', authors: ['Tom B. Brown'], summary: 'We show that scaling up language models greatly improves task-agnostic, few-shot performance.', published: '2020-05-28', categories: ['cs.CL'], primary: 'cs.CL' },
+    ];
+    window.App = { papers: new Map(papers.map((p) => [p.id, p])) };
+
+    const cards = document.getElementById('cards');
+    for (const p of papers) {
+      const el = document.createElement('article');
+      el.className = 'card demo-card';
+      el.dataset.id = p.id;
+      el.innerHTML = `<h3>${p.title}</h3><p>${p.summary}</p><div class="card__actions"></div>`;
+      const actions = el.querySelector('.card__actions');
+      actions.appendChild(Likes.heartButton(p));
+      const read = document.createElement('button');
+      read.className = 'action-btn';
+      read.textContent = 'Read paper';
+      read.onclick = () => Reader.open(p);
+      actions.appendChild(read);
+      Likes.attachDoubleTap(el, p);
+      cards.appendChild(el);
+    }
+
+    const liked = document.getElementById('liked');
+    Likes.renderList(liked, {
+      onRead: (p, i, list) => Reader.openFeed(list, { start: i, title: 'Liked' }),
+      onReadAll: (list) => Reader.openFeed(list, { title: 'Liked' }),
+    });
+    document.getElementById('tab-feed').onclick = () => { cards.hidden = false; liked.hidden = true; };
+    document.getElementById('tab-liked').onclick = () => { cards.hidden = true; liked.hidden = false; };
+  </script>
+</body>
+</html>
