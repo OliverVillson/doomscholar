@@ -1,0 +1,95 @@
+/* Likes + full-paper reader: the parts design/components.css doesn't cover
+   (paper sections, LaTeXML content from arXiv HTML, PDF pages, states).
+   Uses tokens from design/tokens.css; design/overrides.css may restyle any of it. */
+
+html.reader-open, html.reader-open body { overflow: hidden; }
+
+/* ---------- Likes ---------- */
+.card { -webkit-tap-highlight-color: transparent; }
+.liked-page__readall { margin-top: var(--space-4); width: 100%; }
+.liked-item__body {
+  flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px;
+  padding: 0; border: 0; background: none; text-align: left; color: inherit;
+}
+.liked-item .like-btn { flex: none; }
+
+/* ---------- Reader: one section per paper ---------- */
+.reader__paper.is-collapsed { overflow: hidden; }
+.reader__divider {
+  display: flex; align-items: center; gap: var(--space-3);
+  margin: var(--space-12) 0 var(--space-6);
+  font-family: var(--font-sans); font-size: var(--fs-caption); font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3);
+}
+.reader__divider::before, .reader__divider::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+.reader__paperhead { margin-bottom: var(--space-6); }
+.reader__paperhead .reader__meta { margin-bottom: var(--space-3); }
+.reader__meta a { color: inherit; }
+.reader__ptitle {
+  font-family: var(--font-sans); font-size: 28px; line-height: var(--lh-tight);
+  letter-spacing: -0.025em; color: var(--text); margin: 0 0 var(--space-3); text-wrap: balance;
+}
+.reader__authors { font-family: var(--font-sans); font-size: var(--fs-meta); color: var(--text-2); margin: 0 0 var(--space-4); }
+.reader__abstract { padding: var(--space-4); border-radius: var(--radius-md); background: var(--surface); }
+.reader__abstract summary { font-family: var(--font-sans); font-size: var(--fs-meta); font-weight: 600; color: var(--text-2); cursor: pointer; }
+.reader__abstract p { margin: var(--space-2) 0 0; }
+
+.reader__loading, .reader__error, .reader__end {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-4);
+  padding: var(--space-12) 0; text-align: center;
+  font-family: var(--font-sans); font-size: var(--fs-callout); color: var(--text-2);
+}
+.reader__error p, .reader__end p { margin: 0; }
+.reader__error .btn { margin: 4px; }
+.reader__sentinel { height: 1px; }
+
+/* ---------- PDF pages (pdf.js) ---------- */
+.reader__pdf { display: flex; flex-direction: column; gap: var(--space-2); margin: 0 calc(var(--space-4) * -1); }
+.reader__pdfpage { width: 100%; background: #fff; border-radius: var(--radius-sm); overflow: hidden; }
+.reader__pdfpage canvas { display: block; width: 100%; height: 100%; border-radius: 0; }
+
+/* ---------- arXiv HTML (LaTeXML) ---------- */
+.reader__html .ltx_tag_section, .reader__html .ltx_tag_subsection, .reader__html .ltx_tag_subsubsection { margin-right: 0.5em; }
+.reader__html h4, .reader__html h5, .reader__html h6 { font-family: var(--font-sans); font-size: var(--fs-callout); margin: var(--space-6) 0 var(--space-2); color: var(--text); }
+.reader__html a { text-decoration: none; }
+.reader__html .ltx_figure, .reader__html .ltx_table { margin: var(--space-6) 0; text-align: center; }
+.reader__html .ltx_figure img { padding: 4px; }
+.reader__html .ltx_caption { display: block; margin-top: var(--space-2); font-family: var(--font-sans); font-size: var(--fs-meta); line-height: 1.45; color: var(--text-2); text-align: left; }
+.reader__html .ltx_flex_figure { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2); }
+.reader__html .ltx_flex_break { flex-basis: 100%; }
+.reader__html .reader__scrollx { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; margin: var(--space-3) 0; }
+.reader__html .reader__scrollx > table { display: table; overflow: visible; margin: 0 auto; }
+.reader__html .ltx_border_t { border-top: 1px solid var(--line-strong); }
+.reader__html .ltx_border_b { border-bottom: 1px solid var(--line-strong); }
+.reader__html .ltx_border_tt { border-top: 2px solid var(--line-strong); }
+.reader__html .ltx_border_bb { border-bottom: 2px solid var(--line-strong); }
+.reader__html .ltx_border_r { border-right: 1px solid var(--line); }
+.reader__html .ltx_border_l { border-left: 1px solid var(--line); }
+.reader__html table.ltx_equation, .reader__html table.ltx_equationgroup, .reader__html table.ltx_eqn_table { width: 100%; font-family: inherit; font-size: inherit; }
+.reader__html table.ltx_equation td, .reader__html table.ltx_equationgroup td, .reader__html table.ltx_eqn_table td { border: 0; padding: 2px 0; }
+.reader__html .ltx_eqn_eqno { text-align: right; color: var(--text-3); padding-left: var(--space-2) !important; white-space: nowrap; font-family: var(--font-sans); font-size: var(--fs-meta); }
+.reader__html .ltx_eqn_center_padleft, .reader__html .ltx_eqn_center_padright { width: 0; }
+.reader__html math[display='block'] { margin: var(--space-2) auto; }
+.reader__html .ltx_note_outer { display: none; }
+.reader__html .ltx_note_mark { font-size: 0.75em; vertical-align: super; }
+.reader__html .ltx_theorem { margin: var(--space-4) 0; padding: var(--space-3) var(--space-4); border-left: 2px solid var(--accent); background: var(--surface); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+.reader__html .ltx_title_theorem, .reader__html .ltx_title_proof { font-family: var(--font-sans); font-weight: 700; }
+.reader__html .ltx_abstract { display: none; } /* shown in the paper header */
+.reader__html .ltx_bibliography { font-family: var(--font-sans); font-size: var(--fs-meta); line-height: 1.45; color: var(--text-2); }
+.reader__html .ltx_bibliography ul { padding-left: 0; list-style: none; }
+.reader__html .ltx_bibitem { margin-bottom: var(--space-2); }
+.reader__html .ltx_listing { font-family: var(--font-mono); font-size: 0.8em; background: var(--surface); padding: var(--space-3); border-radius: var(--radius-md); white-space: pre; }
+.reader__html .ltx_font_bold { font-weight: 700; }
+.reader__html .ltx_font_italic { font-style: italic; }
+.reader__html .ltx_font_typewriter { font-family: var(--font-mono); font-size: 0.9em; }
+.reader__html .ltx_font_smallcaps { font-variant: small-caps; }
+.reader__html .ltx_centering { text-align: center; }
+.reader__html .ltx_itemize, .reader__html .ltx_enumerate { padding-left: 1.4em; }
+.reader__html .ltx_item { list-style: none; }
+.reader__html .ltx_item > .ltx_tag { float: left; margin-left: -1.4em; }
+.reader__html .ltx_ERROR { color: var(--text-3); font-size: 0.85em; }
+
+/* ---------- Liked page (sits over the feed so the feed keeps its place) ---------- */
+.liked-page { position: fixed; inset: 0; z-index: 15; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; background: var(--bg); }
+.liked-page[hidden] { display: none; }
